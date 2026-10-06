@@ -28,7 +28,12 @@ Run the following commands from the repository root using Python 3.11 or 3.12.
    If needed, add `--semantic-evaluator-reasoning-effort` and
    `--semantic-evaluator-timeout-seconds` to either evaluation command below.
 
-3. Select the observation condition before running either agent.
+3. Download the pretrained StateBundle checkpoint from [Google Drive](https://drive.google.com/file/d/1NeUD1yogZO0bJkX7igJoC0PEd6_rMkOS/view?usp=drive_link) and save it to:
+
+```text
+.checkpoints/statebundle-stage3/stage3-epoch-9.pt
+   
+4. Select the observation condition before running either agent.
 
    For Full-Canonical:
 
@@ -52,7 +57,7 @@ Run the following commands from the repository root using Python 3.11 or 3.12.
    --observation-token-budget 4096
    ```
 
-4. Evaluate a tool-calling agent on all 72 tasks:
+5. Evaluate a tool-calling agent on all 72 tasks:
 
    ```bash
    export DC_TWIN_LLM_API_KEY='your-agent-api-key'
@@ -75,7 +80,7 @@ Run the following commands from the repository root using Python 3.11 or 3.12.
    Adjust `--max-tokens`, `--temperature`, `--thinking-mode`, or
    `--use-max-completion-tokens` when required by the model.
 
-5. Evaluate Codex on all 72 tasks. Install Docker, then build the agent image
+6. Evaluate Codex on all 72 tasks. Install Docker, then build the agent image
    with your selected Codex CLI version:
 
    ```bash
@@ -106,7 +111,7 @@ Run the following commands from the repository root using Python 3.11 or 3.12.
    options. Keep `--codex-sandbox docker` with the command above so Docker
    provides the execution isolation.
 
-6. To evaluate a small diagnostic/mitigation subset, replace
+7. To evaluate a small diagnostic/mitigation subset, replace
    `--expected-problem-count 72` in either command with:
 
    ```text
