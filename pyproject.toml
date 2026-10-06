@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dcbench-evaluation"
+version = "0.1.0"
+description = "DC-Bench tool-calling and Codex evaluation with canonical and StateBundle observations"
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+dependencies = ["pydantic>=2.7,<3", "PyYAML>=6,<7", "tiktoken>=0.7,<1"]
+
+[project.optional-dependencies]
+statebundle = ["torch>=2.5,<3"]
+test = ["pytest>=8.3,<9", "pytest-asyncio>=0.25,<0.26"]
+
+[tool.setuptools.packages.find]
+include = ["aiopslab*", "clients*", "scripts*"]
+exclude = ["aiopslab-applications*"]
+
+[tool.setuptools.package-data]
+"aiopslab.orchestrator.problems.data_center_twin" = ["scenarios.json"]
+"clients.data_center_twin_baselines" = ["*.md"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests", "aiopslab-applications/dataCenterTwin/app/tests"]

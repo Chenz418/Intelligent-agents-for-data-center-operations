@@ -1,0 +1,42 @@
+# New evaluation artifacts and temporary agent workspaces.
+results/
+outputs/
+runs/
+logs/
+artifacts/
+codex_runs/
+codex_outputs/
+agent_workspaces/
+.codex/
+.claude/
+
+# Private configuration and credentials.
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+auth.json
+*.secret
+*.key
+*.pem
+
+# Inference checkpoints are kept locally and are not published.
+/checkpoints/
+
+# Local environments, caches and build products.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+build/
+dist/
+.coverage
+htmlcov/
+*.log
+*.tmp
+.DS_Store

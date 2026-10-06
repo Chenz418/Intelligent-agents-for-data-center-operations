@@ -1,0 +1,2570 @@
+{
+  "version": "2026-05-28",
+  "scenarios": [
+    {
+      "problem_id": "data_center_twin-cooling_degradation-detection-1",
+      "class_name": "DataCenterTwinCoolingDegradationDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "cooling_degradation",
+        "target": "cooling-unit-1",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["cooling_degradation", "cooling degradation", "cooling"],
+        "target_terms": ["cooling-unit-1"],
+        "domain_terms": ["facility thermal", "thermal", "cooling"],
+        "evidence_terms": ["active_faults", "cooling_units", "thermal_critical", "temperature", "sla_status", "thermal_throttled_servers", "min_thermal_throttle_factor", "workload_service_capacity_requests_per_second", "workload_queue_length", "host_capacity_throttled"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-cooling_degradation-localization-1",
+      "class_name": "DataCenterTwinCoolingDegradationLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "cooling_degradation",
+        "target": "cooling-unit-1",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["cooling_degradation", "cooling degradation", "cooling"],
+        "target_terms": ["cooling-unit-1"],
+        "domain_terms": ["facility thermal", "thermal", "cooling"],
+        "evidence_terms": ["active_faults", "cooling_units", "temperature", "thermal_throttled_servers", "min_thermal_throttle_factor", "workload_service_capacity_requests_per_second", "workload_queue_length", "host_capacity_throttled"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-cooling_degradation-analysis-1",
+      "class_name": "DataCenterTwinCoolingDegradationAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "cooling_degradation",
+        "target": "cooling-unit-1",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["cooling_degradation", "cooling degradation", "cooling"],
+        "target_terms": ["cooling-unit-1"],
+        "domain_terms": ["facility thermal", "thermal", "cooling"],
+        "evidence_terms": ["active_faults", "cooling_units", "thermal_critical", "temperature", "thermal_throttled_servers", "min_thermal_throttle_factor", "workload_service_capacity_requests_per_second", "workload_queue_length", "host_capacity_throttled"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-cooling_degradation-mitigation-1",
+      "class_name": "DataCenterTwinCoolingDegradationMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "cooling_degradation",
+        "target": "cooling-unit-1",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["cooling_degradation", "cooling degradation", "cooling"],
+        "target_terms": ["cooling-unit-1"],
+        "domain_terms": ["facility thermal", "thermal", "cooling"],
+        "evidence_terms": ["thermal_critical", "sla_status", "cooling_units", "thermal_throttled_servers", "min_thermal_throttle_factor", "workload_service_capacity_requests_per_second", "workload_queue_length", "host_capacity_throttled"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "thermal_critical_max": 0,
+        "required_control_actions": ["set_cooling"],
+        "mitigation_action": {
+          "action_type": "set_cooling",
+          "parameters": {
+            "target": "cooling-unit-1",
+            "fan_speed_percent": 100,
+            "supply_air_temperature_c": 16
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-rack_hotspot-detection-1",
+      "class_name": "DataCenterTwinRackHotspotDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "rack_hotspot",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["rack_hotspot", "rack hotspot", "hotspot"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "rack"],
+        "evidence_terms": ["active_faults", "thermal_critical", "racks", "temperature", "sla_status"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-rack_hotspot-localization-1",
+      "class_name": "DataCenterTwinRackHotspotLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "rack_hotspot",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["rack_hotspot", "rack hotspot", "hotspot"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "rack"],
+        "evidence_terms": ["active_faults", "thermal_critical", "racks", "temperature"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-rack_hotspot-analysis-1",
+      "class_name": "DataCenterTwinRackHotspotAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "rack_hotspot",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["rack_hotspot", "rack hotspot", "hotspot"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "rack"],
+        "evidence_terms": ["active_faults", "thermal_critical", "racks", "temperature"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-rack_hotspot-mitigation-1",
+      "class_name": "DataCenterTwinRackHotspotMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "rack_hotspot",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["rack_hotspot", "rack hotspot", "hotspot"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "rack"],
+        "evidence_terms": ["thermal_critical", "racks", "temperature", "workload_allocated_server_ids"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 50.0,
+        "workload_allocated_away_from_rack": "rack-r1-row1-02",
+        "required_control_actions": ["migrate_workload"],
+        "mitigation_action": {
+          "action_type": "migrate_workload",
+          "parameters": {
+            "source_rack_id": "rack-r1-row1-02",
+            "target_rack_id": "rack-r1-row1-03",
+            "workload_fraction": 1.0
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-power_overload-detection-1",
+      "class_name": "DataCenterTwinPowerOverloadDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_overload",
+        "target": "rack-r1-row2-03",
+        "severity": 0.8,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["power_overload", "power overload", "overload"],
+        "target_terms": ["rack-r1-row2-03"],
+        "domain_terms": ["power", "rack"],
+        "evidence_terms": ["active_faults", "power_overloaded_racks", "power", "sla_status"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-power_overload-localization-1",
+      "class_name": "DataCenterTwinPowerOverloadLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_overload",
+        "target": "rack-r1-row2-03",
+        "severity": 0.8,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["power_overload", "power overload", "overload"],
+        "target_terms": ["rack-r1-row2-03"],
+        "domain_terms": ["power", "rack"],
+        "evidence_terms": ["active_faults", "power_overloaded_racks", "power", "sla_status"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-power_overload-analysis-1",
+      "class_name": "DataCenterTwinPowerOverloadAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_overload",
+        "target": "rack-r1-row2-03",
+        "severity": 0.8,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["power_overload", "power overload", "overload"],
+        "target_terms": ["rack-r1-row2-03"],
+        "domain_terms": ["power", "rack"],
+        "evidence_terms": ["active_faults", "power_overloaded_racks", "power", "sla_status"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-power_overload-mitigation-1",
+      "class_name": "DataCenterTwinPowerOverloadMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_overload",
+        "target": "rack-r1-row2-03",
+        "severity": 0.8,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["power_overload", "power overload", "overload"],
+        "target_terms": ["rack-r1-row2-03"],
+        "domain_terms": ["power", "rack"],
+        "evidence_terms": ["power_overloaded_racks", "workload_allocated_server_ids", "power", "alerts"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 50.0,
+        "workload_allocated_away_from_rack": "rack-r1-row2-03",
+        "required_control_actions": ["migrate_workload"],
+        "mitigation_action": {
+          "action_type": "migrate_workload",
+          "parameters": {
+            "source_rack_id": "rack-r1-row2-03",
+            "target_rack_id": "rack-r1-row2-04",
+            "workload_fraction": 1.0
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-server_failure-detection-1",
+      "class_name": "DataCenterTwinServerFailureDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "server_failure",
+        "target": "server-r1-row1-rack01-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["server_failure", "server failure", "failed server", "hardware"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["hardware", "server"],
+        "evidence_terms": ["active_faults", "failed_servers", "server_failed", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-server_failure-localization-1",
+      "class_name": "DataCenterTwinServerFailureLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "server_failure",
+        "target": "server-r1-row1-rack01-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["server_failure", "server failure", "failed server", "hardware"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["hardware", "server"],
+        "evidence_terms": ["active_faults", "failed_servers", "server_failed", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-server_failure-analysis-1",
+      "class_name": "DataCenterTwinServerFailureAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "server_failure",
+        "target": "server-r1-row1-rack01-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["server_failure", "server failure", "failed server", "hardware"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["hardware", "server"],
+        "evidence_terms": ["active_faults", "failed_servers", "server_failed", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-server_failure-mitigation-1",
+      "class_name": "DataCenterTwinServerFailureMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "server_failure",
+        "target": "server-r1-row1-rack01-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["server_failure", "server failure", "failed server", "hardware"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["hardware", "server"],
+        "evidence_terms": ["failed_servers", "workload_queue_length", "workload_allocated_server_ids", "alerts"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 100.0,
+        "workload_allocated_away_from_rack": "rack-r1-row1-01",
+        "required_control_actions": ["migrate_workload"],
+        "mitigation_action": {
+          "action_type": "migrate_workload",
+          "parameters": {
+            "source_rack_id": "rack-r1-row1-01",
+            "target_rack_id": "rack-r1-row1-02",
+            "workload_fraction": 1.0
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-network_partition-detection-1",
+      "class_name": "DataCenterTwinNetworkPartitionDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "network_partition",
+        "target": "rack-r1-row1-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["network_partition", "network partition", "partition"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["network", "rack"],
+        "evidence_terms": ["active_faults", "workload_queue_length", "workload_network_congestion_ratio", "workload_average_latency_ms"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-network_partition-localization-1",
+      "class_name": "DataCenterTwinNetworkPartitionLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "network_partition",
+        "target": "rack-r1-row1-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["network_partition", "network partition", "partition"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["network", "rack"],
+        "evidence_terms": ["active_faults", "workload_queue_length", "workload_network_congestion_ratio", "workload_average_latency_ms"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-network_partition-analysis-1",
+      "class_name": "DataCenterTwinNetworkPartitionAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "network_partition",
+        "target": "rack-r1-row1-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["network_partition", "network partition", "partition"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["network", "rack"],
+        "evidence_terms": ["active_faults", "workload_queue_length", "workload_network_congestion_ratio", "workload_average_latency_ms"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-network_partition-mitigation-1",
+      "class_name": "DataCenterTwinNetworkPartitionMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "network_partition",
+        "target": "rack-r1-row1-01",
+        "severity": 1.0,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["network_partition", "network partition", "partition"],
+        "target_terms": ["rack-r1-row1-01"],
+        "domain_terms": ["network", "rack"],
+        "evidence_terms": ["active_faults", "workload_queue_length", "workload_network_congestion_ratio", "workload_average_latency_ms"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "failover_rack": "rack-r1-row1-02",
+        "workload_queue_length_max": 0,
+        "workload_network_congestion_ratio_max": 0.7,
+        "workload_average_latency_ms_max": 250.0,
+        "sla_status": "normal",
+        "required_control_actions": ["migrate_workload"],
+        "mitigation_action": {
+          "action_type": "migrate_workload",
+          "parameters": {
+            "source_rack_id": "rack-r1-row1-01",
+            "target_rack_id": "rack-r1-row1-02",
+            "workload_fraction": 1.0
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-storage_io_saturation-detection-1",
+      "class_name": "DataCenterTwinStorageIoSaturationDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "storage_io_saturation",
+        "target": "storage",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["storage_io_saturation", "storage saturation", "storage io", "i/o saturation"],
+        "target_terms": ["storage"],
+        "domain_terms": ["storage", "iops"],
+        "evidence_terms": ["active_faults", "workload_storage_latency_penalty_ms", "workload_storage_utilization_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-storage_io_saturation-localization-1",
+      "class_name": "DataCenterTwinStorageIoSaturationLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "storage_io_saturation",
+        "target": "storage",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["storage_io_saturation", "storage saturation", "storage io", "i/o saturation"],
+        "target_terms": ["storage"],
+        "domain_terms": ["storage", "iops"],
+        "evidence_terms": ["active_faults", "workload_storage_latency_penalty_ms", "workload_storage_utilization_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-storage_io_saturation-analysis-1",
+      "class_name": "DataCenterTwinStorageIoSaturationAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "storage_io_saturation",
+        "target": "storage",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["storage_io_saturation", "storage saturation", "storage io", "i/o saturation"],
+        "target_terms": ["storage"],
+        "domain_terms": ["storage", "iops"],
+        "evidence_terms": ["active_faults", "workload_storage_latency_penalty_ms", "workload_storage_utilization_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-storage_io_saturation-mitigation-1",
+      "class_name": "DataCenterTwinStorageIoSaturationMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "storage_io_saturation",
+        "target": "storage",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["storage_io_saturation", "storage saturation", "storage io", "i/o saturation"],
+        "target_terms": ["storage"],
+        "domain_terms": ["storage", "iops"],
+        "evidence_terms": ["workload_storage_latency_penalty_ms", "workload_storage_utilization_ratio", "workload_average_latency_ms", "alerts"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_storage_utilization_ratio_max": 0.2,
+        "workload_storage_latency_penalty_ms_max": 5.0,
+        "workload_average_latency_ms_max": 20.0,
+        "required_control_actions": ["throttle_workload"],
+        "mitigation_action": {
+          "action_type": "throttle_workload",
+          "parameters": {"request_rate_per_second": 100},
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-control_plane_degradation-detection-1",
+      "class_name": "DataCenterTwinControlPlaneDegradationDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "control_plane_degradation",
+        "target": "control-plane",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["control_plane_degradation", "control plane degradation", "control plane"],
+        "target_terms": ["control-plane"],
+        "domain_terms": ["software control plane", "control plane", "scheduler"],
+        "evidence_terms": ["active_faults", "workload_service_capacity_requests_per_second", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-control_plane_degradation-localization-1",
+      "class_name": "DataCenterTwinControlPlaneDegradationLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "control_plane_degradation",
+        "target": "control-plane",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["control_plane_degradation", "control plane degradation", "control plane"],
+        "target_terms": ["control-plane"],
+        "domain_terms": ["software control plane", "control plane", "scheduler"],
+        "evidence_terms": ["active_faults", "workload_service_capacity_requests_per_second", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-control_plane_degradation-analysis-1",
+      "class_name": "DataCenterTwinControlPlaneDegradationAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "control_plane_degradation",
+        "target": "control-plane",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["control_plane_degradation", "control plane degradation", "control plane"],
+        "target_terms": ["control-plane"],
+        "domain_terms": ["software control plane", "control plane", "scheduler"],
+        "evidence_terms": ["active_faults", "workload_service_capacity_requests_per_second", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-control_plane_degradation-mitigation-1",
+      "class_name": "DataCenterTwinControlPlaneDegradationMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "control_plane_degradation",
+        "target": "control-plane",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["control_plane_degradation", "control plane degradation", "control plane"],
+        "target_terms": ["control-plane"],
+        "domain_terms": ["software control plane", "control plane", "scheduler"],
+        "evidence_terms": ["workload_service_capacity_requests_per_second", "workload_queue_length", "workload_average_latency_ms", "alerts"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 50.0,
+        "workload_current_demand_per_second_max": 500.0,
+        "required_control_actions": ["throttle_workload"],
+        "mitigation_action": {
+          "action_type": "throttle_workload",
+          "parameters": {"request_rate_per_second": 100},
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-application_error-detection-1",
+      "class_name": "DataCenterTwinApplicationErrorDetection",
+      "task_type": "detection",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "application_error",
+        "target": "workload",
+        "severity": 0.35,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["application_error", "application error", "application"],
+        "target_terms": ["workload", "application"],
+        "domain_terms": ["application", "workload"],
+        "evidence_terms": ["active_faults", "workload_application_error_rate_percent", "workload_dropped_requests_per_second", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-application_error-localization-1",
+      "class_name": "DataCenterTwinApplicationErrorLocalization",
+      "task_type": "localization",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "application_error",
+        "target": "workload",
+        "severity": 0.35,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["application_error", "application error", "application"],
+        "target_terms": ["workload", "application"],
+        "domain_terms": ["application", "workload"],
+        "evidence_terms": ["active_faults", "workload_application_error_rate_percent", "workload_dropped_requests_per_second", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-application_error-analysis-1",
+      "class_name": "DataCenterTwinApplicationErrorAnalysis",
+      "task_type": "analysis",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "application_error",
+        "target": "workload",
+        "severity": 0.35,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["application_error", "application error", "application"],
+        "target_terms": ["workload", "application"],
+        "domain_terms": ["application", "workload"],
+        "evidence_terms": ["active_faults", "workload_application_error_rate_percent", "workload_dropped_requests_per_second", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-application_error-mitigation-1",
+      "class_name": "DataCenterTwinApplicationErrorMitigation",
+      "task_type": "mitigation",
+      "seed": 42,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "application_error",
+        "target": "workload",
+        "severity": 0.35,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["application_error", "application error", "application"],
+        "target_terms": ["workload", "application"],
+        "domain_terms": ["application", "workload"],
+        "evidence_terms": ["workload_application_error_rate_percent", "workload_dropped_requests_per_second", "sla_status", "alerts"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_application_error_rate_percent_max": 0.0,
+        "workload_dropped_requests_per_second_max": 0.0,
+        "workload_current_demand_per_second_max": 0.0,
+        "required_control_actions": ["throttle_workload"],
+        "mitigation_action": {
+          "action_type": "throttle_workload",
+          "parameters": {"request_rate_per_second": 0},
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-thermal_sensor_miscalibration-detection-1",
+      "class_name": "DataCenterTwinThermalSensorMiscalibrationDetection",
+      "task_type": "detection",
+      "seed": 43,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_sensor_miscalibration",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["thermal_sensor_miscalibration", "thermal sensor miscalibration", "sensor miscalibration"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["facility thermal", "thermal", "sensor"],
+        "evidence_terms": ["temperature_sensor_unhealthy_count", "max_temperature_sensor_disagreement_c", "max_reported_rack_inlet_temperature_c", "thermal_sensor_health", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-thermal_sensor_miscalibration-localization-1",
+      "class_name": "DataCenterTwinThermalSensorMiscalibrationLocalization",
+      "task_type": "localization",
+      "seed": 43,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_sensor_miscalibration",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["thermal_sensor_miscalibration", "thermal sensor miscalibration", "sensor miscalibration"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["facility thermal", "thermal", "sensor"],
+        "evidence_terms": ["temperature_sensor_unhealthy_count", "max_temperature_sensor_disagreement_c", "thermal_sensor_health", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-thermal_sensor_miscalibration-analysis-1",
+      "class_name": "DataCenterTwinThermalSensorMiscalibrationAnalysis",
+      "task_type": "analysis",
+      "seed": 43,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_sensor_miscalibration",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["thermal_sensor_miscalibration", "thermal sensor miscalibration", "sensor miscalibration"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["facility thermal", "thermal", "sensor"],
+        "evidence_terms": ["temperature_sensor_unhealthy_count", "max_temperature_sensor_disagreement_c", "max_reported_rack_inlet_temperature_c", "thermal_sensor_health", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-thermal_sensor_miscalibration-mitigation-1",
+      "class_name": "DataCenterTwinThermalSensorMiscalibrationMitigation",
+      "task_type": "mitigation",
+      "seed": 43,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_sensor_miscalibration",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["thermal_sensor_miscalibration", "thermal sensor miscalibration", "sensor miscalibration"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["facility thermal", "thermal", "sensor"],
+        "evidence_terms": ["temperature_sensor_unhealthy_count", "max_temperature_sensor_disagreement_c", "thermal_sensor_health", "thermal_critical"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "thermal_critical_max": 0,
+        "temperature_sensor_unhealthy_count_max": 0,
+        "max_temperature_sensor_disagreement_c_max": 0.5,
+        "required_control_actions": ["calibrate_sensor"],
+        "mitigation_action": {
+          "action_type": "calibrate_sensor",
+          "parameters": {
+            "target": "rack-r1-row1-02",
+            "calibration_offset_c": -12.6
+          },
+          "advance_ticks": 1
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-power_budget_violation-detection-1",
+      "class_name": "DataCenterTwinPowerBudgetViolationDetection",
+      "task_type": "detection",
+      "seed": 44,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_budget_violation",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["power_budget_violation", "power budget violation", "power budget"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["power", "budget", "facility"],
+        "evidence_terms": ["power_budget_violating_racks", "max_power_budget_utilization_ratio", "facility_power_kw", "pue", "rack_power_budget", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-power_budget_violation-localization-1",
+      "class_name": "DataCenterTwinPowerBudgetViolationLocalization",
+      "task_type": "localization",
+      "seed": 44,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_budget_violation",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["power_budget_violation", "power budget violation", "power budget"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["power", "budget", "facility"],
+        "evidence_terms": ["power_budget_violating_racks", "max_power_budget_utilization_ratio", "rack_power_budget", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-power_budget_violation-analysis-1",
+      "class_name": "DataCenterTwinPowerBudgetViolationAnalysis",
+      "task_type": "analysis",
+      "seed": 44,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_budget_violation",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["power_budget_violation", "power budget violation", "power budget"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["power", "budget", "facility"],
+        "evidence_terms": ["power_budget_violating_racks", "max_power_budget_utilization_ratio", "facility_power_kw", "pue", "rack_power_budget", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-power_budget_violation-mitigation-1",
+      "class_name": "DataCenterTwinPowerBudgetViolationMitigation",
+      "task_type": "mitigation",
+      "seed": 44,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "power_budget_violation",
+        "target": "rack-r1-row1-02",
+        "severity": 0.7,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["power_budget_violation", "power budget violation", "power budget"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["power", "budget", "facility"],
+        "evidence_terms": ["power_budget_violating_racks", "max_power_budget_utilization_ratio", "rack_power_budget", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "power_budget_violating_racks_max": 0,
+        "max_power_budget_utilization_ratio_max": 1.0,
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 80.0,
+        "workload_allocated_away_from_rack": "rack-r1-row1-02",
+        "required_control_actions": ["migrate_workload"],
+        "mitigation_action": {
+          "action_type": "migrate_workload",
+          "parameters": {
+            "source_rack_id": "rack-r1-row1-02",
+            "target_rack_id": "rack-r1-row1-01",
+            "workload_fraction": 1.0
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-intermittent_server_failure-detection-1",
+      "class_name": "DataCenterTwinIntermittentServerFailureDetection",
+      "task_type": "detection",
+      "seed": 45,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "intermittent_server_failure",
+        "target": "server-r1-row1-rack02-03",
+        "severity": 1.0,
+        "duration_seconds": 1800,
+        "period_seconds": 4,
+        "duty_cycle": 0.5
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["intermittent_server_failure", "intermittent server failure", "flapping host"],
+        "target_terms": ["server-r1-row1-rack02-03", "rack-r1-row1-02"],
+        "domain_terms": ["hardware", "host", "server"],
+        "evidence_terms": ["host_health_flapping_count", "host_health_status_change_count", "host_health_flapping", "workload_queue_length", "recent_events", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-intermittent_server_failure-localization-1",
+      "class_name": "DataCenterTwinIntermittentServerFailureLocalization",
+      "task_type": "localization",
+      "seed": 45,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "intermittent_server_failure",
+        "target": "server-r1-row1-rack02-03",
+        "severity": 1.0,
+        "duration_seconds": 1800,
+        "period_seconds": 4,
+        "duty_cycle": 0.5
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["intermittent_server_failure", "intermittent server failure", "flapping host"],
+        "target_terms": ["server-r1-row1-rack02-03", "rack-r1-row1-02"],
+        "domain_terms": ["hardware", "host", "server"],
+        "evidence_terms": ["host_health_flapping_count", "host_health_flapping", "recent_events", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-intermittent_server_failure-analysis-1",
+      "class_name": "DataCenterTwinIntermittentServerFailureAnalysis",
+      "task_type": "analysis",
+      "seed": 45,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "intermittent_server_failure",
+        "target": "server-r1-row1-rack02-03",
+        "severity": 1.0,
+        "duration_seconds": 1800,
+        "period_seconds": 4,
+        "duty_cycle": 0.5
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["intermittent_server_failure", "intermittent server failure", "flapping host"],
+        "target_terms": ["server-r1-row1-rack02-03", "rack-r1-row1-02"],
+        "domain_terms": ["hardware", "host", "server"],
+        "evidence_terms": ["host_health_flapping_count", "host_health_status_change_count", "host_health_flapping", "workload_queue_length", "recent_events", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-intermittent_server_failure-mitigation-1",
+      "class_name": "DataCenterTwinIntermittentServerFailureMitigation",
+      "task_type": "mitigation",
+      "seed": 45,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "intermittent_server_failure",
+        "target": "server-r1-row1-rack02-03",
+        "severity": 1.0,
+        "duration_seconds": 1800,
+        "period_seconds": 4,
+        "duty_cycle": 0.5
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["intermittent_server_failure", "intermittent server failure", "flapping host"],
+        "target_terms": ["server-r1-row1-rack02-03", "rack-r1-row1-02"],
+        "domain_terms": ["hardware", "host", "server"],
+        "evidence_terms": ["host_health_flapping_count", "host_health_flapping", "workload_queue_length", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "failed_servers_max": 0,
+        "host_health_flapping_count_max": 0,
+        "workload_queue_length_max": 0,
+        "workload_allocated_away_from_server": "server-r1-row1-rack02-03",
+        "workload_allocated_away_from_rack": "rack-r1-row1-02",
+        "required_control_actions": ["set_server_maintenance", "migrate_workload"],
+        "mitigation_actions": [
+          {
+            "action_type": "set_server_maintenance",
+            "parameters": {"rack_id": "rack-r1-row1-02"},
+            "advance_ticks": 1
+          },
+          {
+            "action_type": "migrate_workload",
+            "parameters": {
+              "source_rack_id": "rack-r1-row1-02",
+              "target_rack_id": "rack-r1-row1-01",
+              "workload_fraction": 1.0
+            },
+            "advance_ticks": 10
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "data_center_twin-thermal_throttling-detection-1",
+      "class_name": "DataCenterTwinThermalThrottlingDetection",
+      "task_type": "detection",
+      "seed": 46,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_throttling",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["thermal_throttling", "thermal throttling", "throttling"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "capacity", "performance"],
+        "evidence_terms": ["thermal_throttled_servers", "min_thermal_throttle_factor", "workload_service_capacity_requests_per_second", "workload_queue_length", "host_capacity_throttled", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-thermal_throttling-localization-1",
+      "class_name": "DataCenterTwinThermalThrottlingLocalization",
+      "task_type": "localization",
+      "seed": 46,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_throttling",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["thermal_throttling", "thermal throttling", "throttling"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "capacity", "performance"],
+        "evidence_terms": ["thermal_throttled_servers", "min_thermal_throttle_factor", "host_capacity_throttled", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-thermal_throttling-analysis-1",
+      "class_name": "DataCenterTwinThermalThrottlingAnalysis",
+      "task_type": "analysis",
+      "seed": 46,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_throttling",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["thermal_throttling", "thermal throttling", "throttling"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "capacity", "performance"],
+        "evidence_terms": ["thermal_throttled_servers", "min_thermal_throttle_factor", "workload_service_capacity_requests_per_second", "workload_queue_length", "workload_gpu_utilization_percent", "host_capacity_throttled", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-thermal_throttling-mitigation-1",
+      "class_name": "DataCenterTwinThermalThrottlingMitigation",
+      "task_type": "mitigation",
+      "seed": 46,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "web_service",
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-02",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "thermal_throttling",
+        "target": "rack-r1-row1-02",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["thermal_throttling", "thermal throttling", "throttling"],
+        "target_terms": ["rack-r1-row1-02"],
+        "domain_terms": ["thermal", "capacity", "performance"],
+        "evidence_terms": ["thermal_throttled_servers", "min_thermal_throttle_factor", "workload_queue_length", "sla_status", "host_capacity_throttled"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "thermal_critical_max": 0,
+        "thermal_throttled_servers_max": 0,
+        "min_thermal_throttle_factor_min": 0.99,
+        "workload_queue_length_max": 0,
+        "required_control_actions": ["set_cooling"],
+        "mitigation_action": {
+          "action_type": "set_cooling",
+          "parameters": {
+            "target": "cooling-unit-1",
+            "fan_speed_percent": 100,
+            "supply_air_temperature_c": 16
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-network_congestion_burst-detection-1",
+      "class_name": "DataCenterTwinNetworkCongestionBurstDetection",
+      "task_type": "detection",
+      "seed": 47,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 1000,
+        "workload_class": "network_heavy",
+        "workload_profile_type": "burst",
+        "workload_profile_parameters": {
+          "baseline_rate_per_second": 1000,
+          "burst_rate_per_second": 16000,
+          "burst_start_time_seconds": 6,
+          "burst_duration_seconds": 40
+        },
+        "network_capacity_mbps": 300,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "post_injection_ticks": 1,
+      "fault": {
+        "type": "network_congestion_burst",
+        "target": "workload",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["network_congestion_burst", "network congestion burst", "burst congestion", "network congestion"],
+        "target_terms": ["workload", "rack-r1-row1-03"],
+        "domain_terms": ["network", "workload", "congestion"],
+        "evidence_terms": ["workload_network_congestion_ratio", "workload_average_latency_ms", "workload_p95_latency_ms", "workload_queue_length", "NetworkCongestionElevated", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-network_congestion_burst-localization-1",
+      "class_name": "DataCenterTwinNetworkCongestionBurstLocalization",
+      "task_type": "localization",
+      "seed": 47,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 1000,
+        "workload_class": "network_heavy",
+        "workload_profile_type": "burst",
+        "workload_profile_parameters": {
+          "baseline_rate_per_second": 1000,
+          "burst_rate_per_second": 16000,
+          "burst_start_time_seconds": 6,
+          "burst_duration_seconds": 40
+        },
+        "network_capacity_mbps": 300,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "post_injection_ticks": 1,
+      "fault": {
+        "type": "network_congestion_burst",
+        "target": "workload",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["network_congestion_burst", "network congestion burst", "burst congestion", "network congestion"],
+        "target_terms": ["workload", "rack-r1-row1-03"],
+        "domain_terms": ["network", "workload", "congestion"],
+        "evidence_terms": ["workload_network_congestion_ratio", "workload_queue_length", "NetworkCongestionElevated", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-network_congestion_burst-analysis-1",
+      "class_name": "DataCenterTwinNetworkCongestionBurstAnalysis",
+      "task_type": "analysis",
+      "seed": 47,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 1000,
+        "workload_class": "network_heavy",
+        "workload_profile_type": "burst",
+        "workload_profile_parameters": {
+          "baseline_rate_per_second": 1000,
+          "burst_rate_per_second": 16000,
+          "burst_start_time_seconds": 6,
+          "burst_duration_seconds": 40
+        },
+        "network_capacity_mbps": 300,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "post_injection_ticks": 1,
+      "fault": {
+        "type": "network_congestion_burst",
+        "target": "workload",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["network_congestion_burst", "network congestion burst", "burst congestion", "network congestion"],
+        "target_terms": ["workload", "rack-r1-row1-03"],
+        "domain_terms": ["network", "workload", "congestion"],
+        "evidence_terms": ["workload_network_congestion_ratio", "workload_average_latency_ms", "workload_p95_latency_ms", "workload_queue_length", "NetworkCongestionElevated", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-network_congestion_burst-mitigation-1",
+      "class_name": "DataCenterTwinNetworkCongestionBurstMitigation",
+      "task_type": "mitigation",
+      "seed": 47,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 1000,
+        "workload_class": "network_heavy",
+        "workload_profile_type": "burst",
+        "workload_profile_parameters": {
+          "baseline_rate_per_second": 1000,
+          "burst_rate_per_second": 16000,
+          "burst_start_time_seconds": 6,
+          "burst_duration_seconds": 40
+        },
+        "network_capacity_mbps": 300,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "post_injection_ticks": 1,
+      "fault": {
+        "type": "network_congestion_burst",
+        "target": "workload",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["network_congestion_burst", "network congestion burst", "burst congestion", "network congestion"],
+        "target_terms": ["workload", "rack-r1-row1-03"],
+        "domain_terms": ["network", "workload", "congestion"],
+        "evidence_terms": ["workload_network_congestion_ratio", "workload_queue_length", "workload_average_latency_ms", "sla_status", "NetworkCongestionElevated"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_network_congestion_ratio_max": 0.7,
+        "workload_average_latency_ms_max": 250.0,
+        "workload_p95_latency_ms_max": 500.0,
+        "workload_current_demand_per_second_max": 1000,
+        "required_control_actions": ["throttle_workload"],
+        "mitigation_action": {
+          "action_type": "throttle_workload",
+          "parameters": {
+            "request_rate_per_second": 1000
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-tor_packet_loss-detection-1",
+      "class_name": "DataCenterTwinTorPacketLossDetection",
+      "task_type": "detection",
+      "seed": 48,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "network_heavy",
+        "network_capacity_mbps": 1000,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "tor_packet_loss",
+        "target": "rack-r1-row1-03",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["tor_packet_loss", "tor packet loss", "packet loss"],
+        "target_terms": ["rack-r1-row1-03"],
+        "domain_terms": ["network", "rack", "packet"],
+        "evidence_terms": ["PacketLossElevated", "network_packet_loss_percent", "network_retransmit_rate", "network_error_rate", "affected_rack_id", "workload_average_latency_ms", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-tor_packet_loss-localization-1",
+      "class_name": "DataCenterTwinTorPacketLossLocalization",
+      "task_type": "localization",
+      "seed": 48,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "network_heavy",
+        "network_capacity_mbps": 1000,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "tor_packet_loss",
+        "target": "rack-r1-row1-03",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["tor_packet_loss", "tor packet loss", "packet loss"],
+        "target_terms": ["rack-r1-row1-03"],
+        "domain_terms": ["network", "rack", "packet"],
+        "evidence_terms": ["PacketLossElevated", "network_packet_loss_percent", "affected_rack_id", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-tor_packet_loss-analysis-1",
+      "class_name": "DataCenterTwinTorPacketLossAnalysis",
+      "task_type": "analysis",
+      "seed": 48,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "network_heavy",
+        "network_capacity_mbps": 1000,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "tor_packet_loss",
+        "target": "rack-r1-row1-03",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["tor_packet_loss", "tor packet loss", "packet loss"],
+        "target_terms": ["rack-r1-row1-03"],
+        "domain_terms": ["network", "rack", "packet"],
+        "evidence_terms": ["PacketLossElevated", "network_packet_loss_percent", "network_retransmit_rate", "network_error_rate", "affected_rack_id", "workload_average_latency_ms", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-tor_packet_loss-mitigation-1",
+      "class_name": "DataCenterTwinTorPacketLossMitigation",
+      "task_type": "mitigation",
+      "seed": 48,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 2500,
+        "workload_class": "network_heavy",
+        "network_capacity_mbps": 1000,
+        "placement_strategy": "rack_hotspot",
+        "target_rack_id": "rack-r1-row1-03",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "tor_packet_loss",
+        "target": "rack-r1-row1-03",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["tor_packet_loss", "tor packet loss", "packet loss"],
+        "target_terms": ["rack-r1-row1-03"],
+        "domain_terms": ["network", "rack", "packet"],
+        "evidence_terms": ["PacketLossElevated", "network_packet_loss_percent", "network_retransmit_rate", "network_error_rate", "affected_rack_id", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 100.0,
+        "workload_p95_latency_ms_max": 150.0,
+        "workload_network_packet_loss_percent_max": 0.1,
+        "workload_network_retransmit_rate_max": 0.1,
+        "workload_network_error_rate_max": 0.1,
+        "workload_allocated_away_from_rack": "rack-r1-row1-03",
+        "required_control_actions": ["migrate_workload"],
+        "mitigation_action": {
+          "action_type": "migrate_workload",
+          "parameters": {
+            "source_rack_id": "rack-r1-row1-03",
+            "target_rack_id": "rack-r1-row1-04",
+            "workload_fraction": 1.0
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-autoscaler_misconfiguration-detection-1",
+      "class_name": "DataCenterTwinAutoscalerMisconfigurationDetection",
+      "task_type": "detection",
+      "seed": 49,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "autoscaler_misconfiguration",
+        "target": "autoscaler",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["autoscaler_misconfiguration", "autoscaler misconfiguration", "autoscaler"],
+        "target_terms": ["autoscaler", "control-plane"],
+        "domain_terms": ["software control plane", "control plane", "autoscaler"],
+        "evidence_terms": ["AutoscalerPolicyLimited", "autoscaler_effective_server_limit", "autoscaler_target_utilization_percent", "workload_service_capacity_requests_per_second", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-autoscaler_misconfiguration-localization-1",
+      "class_name": "DataCenterTwinAutoscalerMisconfigurationLocalization",
+      "task_type": "localization",
+      "seed": 49,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "autoscaler_misconfiguration",
+        "target": "autoscaler",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["autoscaler_misconfiguration", "autoscaler misconfiguration", "autoscaler"],
+        "target_terms": ["autoscaler", "control-plane"],
+        "domain_terms": ["software control plane", "control plane", "autoscaler"],
+        "evidence_terms": ["AutoscalerPolicyLimited", "autoscaler_effective_server_limit", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-autoscaler_misconfiguration-analysis-1",
+      "class_name": "DataCenterTwinAutoscalerMisconfigurationAnalysis",
+      "task_type": "analysis",
+      "seed": 49,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "autoscaler_misconfiguration",
+        "target": "autoscaler",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["autoscaler_misconfiguration", "autoscaler misconfiguration", "autoscaler"],
+        "target_terms": ["autoscaler", "control-plane"],
+        "domain_terms": ["software control plane", "control plane", "autoscaler"],
+        "evidence_terms": ["AutoscalerPolicyLimited", "autoscaler_effective_server_limit", "autoscaler_max_capacity", "autoscaler_cooldown_seconds", "workload_service_capacity_requests_per_second", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-autoscaler_misconfiguration-mitigation-1",
+      "class_name": "DataCenterTwinAutoscalerMisconfigurationMitigation",
+      "task_type": "mitigation",
+      "seed": 49,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "autoscaler_misconfiguration",
+        "target": "autoscaler",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "update_autoscaler_policy",
+        "repair_monitoring_pipeline",
+        "update_placement_policy",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["autoscaler_misconfiguration", "autoscaler misconfiguration", "autoscaler"],
+        "target_terms": ["autoscaler", "control-plane"],
+        "domain_terms": ["software control plane", "control plane", "autoscaler"],
+        "evidence_terms": ["AutoscalerPolicyLimited", "autoscaler_effective_server_limit", "workload_queue_length", "workload_service_capacity_requests_per_second", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 80.0,
+        "workload_p95_latency_ms_max": 140.0,
+        "workload_service_capacity_requests_per_second_min": 12000,
+        "autoscaler_effective_server_limit_min": 40,
+        "required_control_actions": ["update_autoscaler_policy"],
+        "mitigation_action": {
+          "action_type": "update_autoscaler_policy",
+          "parameters": {
+            "min_capacity": 4,
+            "max_capacity": 80,
+            "target_utilization_percent": 65,
+            "cooldown_seconds": 30
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-monitoring_pipeline_failure-detection-1",
+      "class_name": "DataCenterTwinMonitoringPipelineFailureDetection",
+      "task_type": "detection",
+      "seed": 50,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "monitoring_pipeline_failure",
+        "target": "monitoring-pipeline",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["monitoring_pipeline_failure", "monitoring pipeline failure", "telemetry stale"],
+        "target_terms": ["monitoring-pipeline", "monitoring"],
+        "domain_terms": ["observability", "monitoring", "telemetry"],
+        "evidence_terms": ["TelemetryStale", "telemetry_lag_seconds", "metrics_last_updated_sim_time_seconds", "logs_last_updated_sim_time_seconds", "metrics_missing_ratio", "logs_missing_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-monitoring_pipeline_failure-localization-1",
+      "class_name": "DataCenterTwinMonitoringPipelineFailureLocalization",
+      "task_type": "localization",
+      "seed": 50,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "monitoring_pipeline_failure",
+        "target": "monitoring-pipeline",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["monitoring_pipeline_failure", "monitoring pipeline failure", "telemetry stale"],
+        "target_terms": ["monitoring-pipeline", "monitoring"],
+        "domain_terms": ["observability", "monitoring", "telemetry"],
+        "evidence_terms": ["TelemetryStale", "telemetry_lag_seconds", "metrics_missing_ratio", "logs_missing_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-monitoring_pipeline_failure-analysis-1",
+      "class_name": "DataCenterTwinMonitoringPipelineFailureAnalysis",
+      "task_type": "analysis",
+      "seed": 50,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "monitoring_pipeline_failure",
+        "target": "monitoring-pipeline",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["monitoring_pipeline_failure", "monitoring pipeline failure", "telemetry stale"],
+        "target_terms": ["monitoring-pipeline", "monitoring"],
+        "domain_terms": ["observability", "monitoring", "telemetry"],
+        "evidence_terms": ["TelemetryStale", "telemetry_lag_seconds", "metrics_last_updated_sim_time_seconds", "logs_last_updated_sim_time_seconds", "metrics_missing_ratio", "logs_missing_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-monitoring_pipeline_failure-mitigation-1",
+      "class_name": "DataCenterTwinMonitoringPipelineFailureMitigation",
+      "task_type": "mitigation",
+      "seed": 50,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 300,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "monitoring_pipeline_failure",
+        "target": "monitoring-pipeline",
+        "severity": 0.85,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "update_autoscaler_policy",
+        "repair_monitoring_pipeline",
+        "update_placement_policy",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["monitoring_pipeline_failure", "monitoring pipeline failure", "telemetry stale"],
+        "target_terms": ["monitoring-pipeline", "monitoring"],
+        "domain_terms": ["observability", "monitoring", "telemetry"],
+        "evidence_terms": ["TelemetryStale", "telemetry_lag_seconds", "metrics_missing_ratio", "logs_missing_ratio", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "telemetry_lag_seconds_max": 1,
+        "metrics_missing_ratio_max": 0.01,
+        "logs_missing_ratio_max": 0.01,
+        "required_control_actions": ["repair_monitoring_pipeline"],
+        "mitigation_action": {
+          "action_type": "repair_monitoring_pipeline",
+          "parameters": {
+            "target": "monitoring-pipeline"
+          },
+          "advance_ticks": 1
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-placement_policy_misconfiguration-detection-1",
+      "class_name": "DataCenterTwinPlacementPolicyMisconfigurationDetection",
+      "task_type": "detection",
+      "seed": 51,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "placement_policy_misconfiguration",
+        "target": "rack-r1-row1-04",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["placement_policy_misconfiguration", "placement policy misconfiguration", "placement policy"],
+        "target_terms": ["rack-r1-row1-04", "scheduler"],
+        "domain_terms": ["scheduling", "scheduler", "placement"],
+        "evidence_terms": ["PlacementPolicyDrift", "placement_policy_violating_racks", "workload_placement_imbalance_ratio", "workload_allocated_server_ids", "workload_queue_length", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-placement_policy_misconfiguration-localization-1",
+      "class_name": "DataCenterTwinPlacementPolicyMisconfigurationLocalization",
+      "task_type": "localization",
+      "seed": 51,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "placement_policy_misconfiguration",
+        "target": "rack-r1-row1-04",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["placement_policy_misconfiguration", "placement policy misconfiguration", "placement policy"],
+        "target_terms": ["rack-r1-row1-04", "scheduler"],
+        "domain_terms": ["scheduling", "scheduler", "placement"],
+        "evidence_terms": ["PlacementPolicyDrift", "placement_policy_violating_racks", "workload_placement_imbalance_ratio", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-placement_policy_misconfiguration-analysis-1",
+      "class_name": "DataCenterTwinPlacementPolicyMisconfigurationAnalysis",
+      "task_type": "analysis",
+      "seed": 51,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "placement_policy_misconfiguration",
+        "target": "rack-r1-row1-04",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["placement_policy_misconfiguration", "placement policy misconfiguration", "placement policy"],
+        "target_terms": ["rack-r1-row1-04", "scheduler"],
+        "domain_terms": ["scheduling", "scheduler", "placement"],
+        "evidence_terms": ["PlacementPolicyDrift", "placement_policy_violating_racks", "workload_placement_imbalance_ratio", "workload_allocated_server_ids", "workload_queue_length", "workload_average_latency_ms", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-placement_policy_misconfiguration-mitigation-1",
+      "class_name": "DataCenterTwinPlacementPolicyMisconfigurationMitigation",
+      "task_type": "mitigation",
+      "seed": 51,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "placement_policy_misconfiguration",
+        "target": "rack-r1-row1-04",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "update_autoscaler_policy",
+        "repair_monitoring_pipeline",
+        "update_placement_policy",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["placement_policy_misconfiguration", "placement policy misconfiguration", "placement policy"],
+        "target_terms": ["rack-r1-row1-04", "scheduler"],
+        "domain_terms": ["scheduling", "scheduler", "placement"],
+        "evidence_terms": ["PlacementPolicyDrift", "placement_policy_violating_racks", "workload_placement_imbalance_ratio", "workload_queue_length", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 80.0,
+        "workload_p95_latency_ms_max": 140.0,
+        "placement_policy_violating_racks_max": 0,
+        "workload_placement_imbalance_ratio_max": 0.4,
+        "workload_allocated_away_from_rack": "rack-r1-row1-04",
+        "required_control_actions": ["update_placement_policy"],
+        "mitigation_action": {
+          "action_type": "update_placement_policy",
+          "parameters": {
+            "placement_strategy": "spread",
+            "forbidden_rack_ids": ["rack-r1-row1-04"],
+            "max_server_count": 40
+          },
+          "advance_ticks": 10
+        }
+      }
+    },
+    {
+      "problem_id": "data_center_twin-load_balancer_misconfiguration-detection-1",
+      "class_name": "DataCenterTwinLoadBalancerMisconfigurationDetection",
+      "task_type": "detection",
+      "seed": 52,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "load_balancer_misconfiguration",
+        "target": "load-balancer",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["load_balancer_misconfiguration", "load balancer misconfiguration", "load balancer"],
+        "target_terms": ["load-balancer", "application", "workload"],
+        "domain_terms": ["application", "load balancer", "traffic routing"],
+        "evidence_terms": ["LoadBalancerBackendImbalance", "LoadBalancerRoutingUnhealthyBackend", "load_balancer_backend_skew_ratio", "load_balancer_error_rate_percent", "workload_application_error_rate_percent", "workload_dropped_requests_per_second", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-load_balancer_misconfiguration-localization-1",
+      "class_name": "DataCenterTwinLoadBalancerMisconfigurationLocalization",
+      "task_type": "localization",
+      "seed": 52,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "load_balancer_misconfiguration",
+        "target": "load-balancer",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["load_balancer_misconfiguration", "load balancer misconfiguration", "load balancer"],
+        "target_terms": ["load-balancer", "application", "workload"],
+        "domain_terms": ["application", "load balancer", "traffic routing"],
+        "evidence_terms": ["LoadBalancerBackendImbalance", "LoadBalancerRoutingUnhealthyBackend", "load_balancer_backend_skew_ratio", "load_balancer_unhealthy_routing_fraction", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-load_balancer_misconfiguration-analysis-1",
+      "class_name": "DataCenterTwinLoadBalancerMisconfigurationAnalysis",
+      "task_type": "analysis",
+      "seed": 52,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "load_balancer_misconfiguration",
+        "target": "load-balancer",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": ["observe", "noop", "step"],
+      "expected": {
+        "fault_type_terms": ["load_balancer_misconfiguration", "load balancer misconfiguration", "load balancer"],
+        "target_terms": ["load-balancer", "application", "workload"],
+        "domain_terms": ["application", "load balancer", "traffic routing"],
+        "evidence_terms": ["LoadBalancerBackendImbalance", "LoadBalancerRoutingUnhealthyBackend", "load_balancer_backend_skew_ratio", "load_balancer_unhealthy_routing_fraction", "load_balancer_error_rate_percent", "workload_queue_length", "workload_average_latency_ms", "workload_dropped_requests_per_second", "alerts"]
+      },
+      "success_criteria": {}
+    },
+    {
+      "problem_id": "data_center_twin-load_balancer_misconfiguration-mitigation-1",
+      "class_name": "DataCenterTwinLoadBalancerMisconfigurationMitigation",
+      "task_type": "mitigation",
+      "seed": 52,
+      "config_override": {"simulation": {"auto_advance": false}},
+      "workload": {
+        "request_rate_per_second": 8000,
+        "workload_class": "web_service",
+        "placement_strategy": "spread",
+        "noise_enabled": false
+      },
+      "stabilization_ticks": 5,
+      "fault": {
+        "type": "load_balancer_misconfiguration",
+        "target": "load-balancer",
+        "severity": 0.9,
+        "duration_seconds": 1800
+      },
+      "allowed_agent_actions": [
+        "observe",
+        "noop",
+        "step",
+        "calibrate_sensor",
+        "set_cooling",
+        "migrate_workload",
+        "throttle_workload",
+        "update_autoscaler_policy",
+        "repair_monitoring_pipeline",
+        "update_placement_policy",
+        "update_load_balancer_config",
+        "set_server_maintenance",
+        "clear_server_maintenance"
+      ],
+      "expected": {
+        "fault_type_terms": ["load_balancer_misconfiguration", "load balancer misconfiguration", "load balancer"],
+        "target_terms": ["load-balancer", "application", "workload"],
+        "domain_terms": ["application", "load balancer", "traffic routing"],
+        "evidence_terms": ["LoadBalancerBackendImbalance", "LoadBalancerRoutingUnhealthyBackend", "load_balancer_error_rate_percent", "workload_application_error_rate_percent", "workload_dropped_requests_per_second", "sla_status"]
+      },
+      "success_criteria": {
+        "stability_window_seconds": 10,
+        "sla_status": "normal",
+        "workload_queue_length_max": 0,
+        "workload_average_latency_ms_max": 80.0,
+        "workload_p95_latency_ms_max": 140.0,
+        "workload_application_error_rate_percent_max": 0.1,
+        "workload_dropped_requests_per_second_max": 0.1,
+        "load_balancer_backend_skew_ratio_max": 0.1,
+        "load_balancer_unhealthy_routing_fraction_max": 0.01,
+        "load_balancer_error_rate_percent_max": 0.1,
+        "required_control_actions": ["update_load_balancer_config"],
+        "mitigation_action": {
+          "action_type": "update_load_balancer_config",
+          "parameters": {
+            "reset_to_equal_weights": true,
+            "routing_policy": "round_robin"
+          },
+          "advance_ticks": 10
+        }
+      }
+    }
+  ]
+}

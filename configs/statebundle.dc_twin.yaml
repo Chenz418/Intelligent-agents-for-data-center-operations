@@ -1,0 +1,141 @@
+root_cause_catalog:
+  classes:
+    - class_id: root-cause-prototype:application_error
+      mechanism: application_error
+      target_type: application_or_tenant
+      description: Application-serving errors increase dropped or failed requests and degrade service quality.
+    - class_id: root-cause-prototype:autoscaler_misconfiguration
+      mechanism: autoscaler_misconfiguration
+      target_type: control_plane
+      description: An invalid autoscaler policy caps serving capacity and causes queue growth under demand.
+    - class_id: root-cause-prototype:control_plane_degradation
+      mechanism: control_plane_degradation
+      target_type: control_plane
+      description: Scheduler or API control delay reduces timely placement and service capacity.
+    - class_id: root-cause-prototype:cooling_degradation
+      mechanism: cooling_degradation
+      target_type: cooling_unit
+      description: Reduced cooling capacity raises rack temperatures and can degrade compute and application service.
+    - class_id: root-cause-prototype:intermittent_server_failure
+      mechanism: intermittent_server_failure
+      target_type: server
+      description: A flapping host alternates between healthy and failed states, creating unstable compute capacity.
+    - class_id: root-cause-prototype:load_balancer_misconfiguration
+      mechanism: load_balancer_misconfiguration
+      target_type: application_load_balancer
+      description: Skewed or unhealthy backend routing increases application errors, drops, and latency.
+    - class_id: root-cause-prototype:monitoring_pipeline_failure
+      mechanism: monitoring_pipeline_failure
+      target_type: monitoring_pipeline
+      description: A degraded monitoring pipeline makes metrics and logs stale or partially unavailable.
+    - class_id: root-cause-prototype:network_congestion_burst
+      mechanism: network_congestion_burst
+      target_type: workload_tenant_or_rack_path
+      description: A transient traffic burst saturates network capacity and increases queueing and request latency.
+    - class_id: root-cause-prototype:network_partition
+      mechanism: network_partition
+      target_type: rack
+      description: Loss of rack connectivity removes reachable serving capacity and increases request latency.
+    - class_id: root-cause-prototype:placement_policy_misconfiguration
+      mechanism: placement_policy_misconfiguration
+      target_type: scheduler_or_rack
+      description: A placement-policy error concentrates work on a disallowed rack instead of spreading service capacity.
+    - class_id: root-cause-prototype:power_budget_violation
+      mechanism: power_budget_violation
+      target_type: rack
+      description: Rack draw exceeds its configured operating budget and constrains safe compute capacity.
+    - class_id: root-cause-prototype:power_overload
+      mechanism: power_overload
+      target_type: rack
+      description: A rack power-limit violation constrains compute and propagates to application service.
+    - class_id: root-cause-prototype:rack_hotspot
+      mechanism: rack_hotspot
+      target_type: rack
+      description: A localized rack thermal hotspot degrades compute and application service.
+    - class_id: root-cause-prototype:server_failure
+      mechanism: server_failure
+      target_type: server
+      description: Loss of a server reduces compute capacity and propagates to the application workload.
+    - class_id: root-cause-prototype:storage_io_saturation
+      mechanism: storage_io_saturation
+      target_type: storage
+      description: Storage saturation raises I/O latency and propagates to request latency and service quality.
+    - class_id: root-cause-prototype:thermal_sensor_miscalibration
+      mechanism: thermal_sensor_miscalibration
+      target_type: rack_or_server_sensor
+      description: A biased temperature sensor disagrees with physical thermal state and degrades thermal observability.
+    - class_id: root-cause-prototype:thermal_throttling
+      mechanism: thermal_throttling
+      target_type: rack_or_server
+      description: Thermal protection reduces processor frequency and available service capacity.
+    - class_id: root-cause-prototype:tor_packet_loss
+      mechanism: tor_packet_loss
+      target_type: rack
+      description: Packet loss on a rack top-of-rack path drives retransmits, errors, and application latency.
+
+model:
+  encoder_dimension: 128
+  shared_dimension: 128
+  relevance_dimension: 64
+  aspect_dimension: 64
+  attention_dimension: 64
+  propagation_hidden_dimension: 128
+
+device: cpu
+
+inference:
+  top_m: 100
+  anchor_token_budget: 1024
+  total_token_budget: 4096
+  max_anchors: 8
+  supports_per_anchor: 4
+  # Observable inference policy; trained scores and weights remain unchanged.
+  learned_score_weight: 1.0
+  active_alert_bonus: 0.40
+  critical_alert_bonus: 0.80
+  high_alert_bonus: 0.60
+  warning_alert_bonus: 0.20
+  target_role_bonus: 0.35
+  entity_identifier_bonus: 0.10
+  slo_violation_bonus: 0.50
+  targeted_request_bonus: 2.00
+  sticky_evidence_bonus: 0.35
+  post_action_evidence_bonus: 0.45
+  anomalous_metric_bonus: 0.25
+  recent_config_change_bonus: 0.35
+  normal_comparison_bonus: 0.10
+  zero_series_penalty: 0.60
+  constant_series_penalty: 0.25
+  redundant_observation_penalty: 0.50
+  static_config_penalty: 0.40
+  stale_config_penalty: 0.20
+  bookkeeping_log_penalty: 0.30
+  minimum_support_score: 0.0
+  minimum_budget_fill_score: -0.50
+  zero_fraction_threshold: 0.95
+  zero_absolute_epsilon: 1.0e-9
+  constant_variance_epsilon: 1.0e-12
+  metric_anomaly_iqr_threshold: 3.0
+  metric_change_fraction_threshold: 0.10
+  metric_shape_round_digits: 6
+  alert_metric_min_shared_terms: 2
+  alert_link_max_gap_seconds: 0.0
+  alert_counterpart_relative_tolerance: 0.02
+  recent_config_window_seconds: 60.0
+  stale_config_age_seconds: 300.0
+  zero_series_representatives: 2
+  semantic_group_representatives: 2
+  healthy_peer_representatives: 2
+  resolution_stability_cuts: 2
+  retention_max_cuts: 6
+  post_action_retention_cuts: 3
+  max_retained_observations: 32
+  redaction_policy:
+    include_payload: true
+    include_entities: true
+    include_entity_provenance: false
+    include_primary_subsystem: true
+    include_subsystem_provenance: false
+    include_correlation_ids: false
+    include_source_references: false
+    include_data_quality: true
