@@ -32,7 +32,8 @@ Run the following commands from the repository root using Python 3.11 or 3.12.
 
 ```text
 .checkpoints/statebundle-stage3/stage3-epoch-9.pt
-   
+
+
 4. Select the observation condition before running either agent.
 
    For Full-Canonical:
